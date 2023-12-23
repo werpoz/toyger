@@ -1,0 +1,44 @@
+name: build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-package-json:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Check if package.json exists
+      run: |
+        if [ -f "package.json" ]; then
+          echo "package.json found"
+        else
+          echo "Error: package.json not found"
+          exit 1
+        fi
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Linting
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test
