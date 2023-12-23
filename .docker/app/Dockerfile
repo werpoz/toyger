@@ -1,0 +1,1 @@
+FROM .docker/base:latest AS app

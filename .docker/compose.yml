@@ -1,0 +1,29 @@
+services:
+    base:
+        build:
+          context: ./../.
+          dockerfile: ./.docker/base/Dockerfile
+        volumes:
+            - ./../:/app
+            - /tmp:/tmp
+        working_dir: /app
+        env_file:
+          - ./.env
+    cli:
+        build:
+            context: ./../.
+            dockerfile: ./.docker/cli/Dockerfile
+        volumes:
+            - ./../:/app
+            - /tmp:/tmp
+        working_dir: /app
+        networks:
+            - network
+        env_file:
+            - ./.env
+        depends_on:
+            - base
+
+networks:
+    network:
+        driver: bridge
